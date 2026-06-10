@@ -1,0 +1,251 @@
+openapi: '3.0.3'
+info:
+  title: RoadToUniNa API
+  version: '1.0.0'
+  description: |
+    API per la gestione delle partite e giocatori di RoadToUniNa
+
+paths:
+  /partite:
+    get:
+      summary: Restituisce l'elenco di tutte le partite
+      responses:
+        '200':
+          description: Lista partite
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    giocatore:
+                      type: string
+                    tempo:
+                      type: string
+                    status:
+                      type: string
+                      enum:
+                        - terminata
+                        - in-pausa
+                        - in-corso
+        '500':
+          description: Errore interno del server
+    post:
+      summary: Crea una nuova partita
+      security: 
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Partita aggiunta correttamente
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  link-iniziale:
+                    type: string
+        '401':
+          description: L'utente deve essere registrato per poter effettuare questa richiesta
+        '403':
+          description: Terminare la partita in corso per poter iniziarne un'altra
+        '500':
+          description: Errore interno del server
+  
+  /partite/{id}:
+    get:
+      summary: Restituisce le informazioni relative ad una singola partita
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'identificativo univoco della partita da recuperare
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Informazioni della partita
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  giocatore:
+                    type: string
+                  tempo:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                      - terminata
+                      - in-pausa
+                      - in-corso
+                  sequenza-link:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: ID della partita non valido
+        '500':
+          description: Errore interno del server
+    patch:
+      summary: Aggiorna lo stato di una partita
+      security: 
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'identificativo univoco della partita da aggiornare
+          schema:
+            type: integer
+      requestBody: 
+          required: true
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - in-pausa
+                      - in-corso
+      responses:
+        '200':
+          description: Stato aggiornato correttamente
+        '403':
+          description: Stato della partita non valido
+        '404':
+          description: ID della partita non valido
+        '500':
+          description: Errore interno del server
+
+  /classifica/partite:
+    get:
+      summary: Restituisce la classifica delle partite per statistica
+      parameters:
+        - name: tipo
+          in: query
+          required: true
+          description: Tipologia di classifica
+          schema:
+            type: string
+            enum:
+              - numero-passi
+      responses:
+        '200':
+          description: Classfica delle partite per statistica selezionata
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    id:
+                      type: integer
+                    giocatore:
+                      type: string
+                    points:
+                      type: integer
+        '400':
+          description: Tipologia non valida
+        '500':
+          description: Errore interno del server
+
+  /classifica/utenti:
+    get:
+      summary: Restituisce la classifica degli utenti per statistica
+      parameters:
+        - name: tipo
+          in: query
+          required: true
+          description: Tipologia di classifica
+          schema:
+            type: string
+            enum:
+              - sfide-completate
+      responses:
+        '200':
+          description: Classifica degli utenti per statistica selezionata
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    nome:
+                      type: string
+                    points:
+                      type: integer
+        '400':
+          description: Tipologia non valida
+        '500':
+          description: Errore interno del server
+
+  /login:
+    post:
+      summary: Effettua il login dell'utente
+      requestBody:
+          required: true
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  password:
+                    type: string
+      responses:
+        '200':
+          description: JWT dell'utente che ha effettuato il login
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '400':
+          description: Credenziali non valide
+        '500':
+          description: Errore interno del server
+
+  /sign-up:
+    post:
+      summary: Effettua la registrazione dell'utente
+      requestBody:
+          required: true
+          description: Credenziali dell'utente
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  nome:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+      responses:
+        '200':
+          description: Utente registrato con successo
+        '400':
+          description: Credenziali non valide
+        '500':
+          description: Errore interno del server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
