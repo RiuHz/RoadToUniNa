@@ -23,14 +23,12 @@ paths:
                       type: integer
                     giocatore:
                       type: string
-                    tempo:
+                    secondi-trascorsi:
+                      type: integer
+                    link-iniziale:
                       type: string
-                    status:
-                      type: string
-                      enum:
-                        - terminata
-                        - in-pausa
-                        - in-corso
+                    numero-passaggi:
+                      type: integer
         '500':
           description: Errore interno del server
     post:
@@ -56,38 +54,32 @@ paths:
   
   /partite/{id}:
     get:
-      summary: Restituisce le informazioni relative ad una singola partita
+      summary: Restituisce le informazioni relative ad una partita
+      security: 
+        - bearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
-          description: L'identificativo univoco della partita da recuperare
+          description: L'identificativo univoco della partita in corso da recuperare
           schema:
             type: integer
       responses:
         '200':
-          description: Informazioni della partita
+          description: Partita recuperata correttamente
           content:
             'application/json':
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  giocatore:
-                    type: string
-                  tempo:
-                    type: string
-                  status:
-                    type: string
-                    enum:
-                      - terminata
-                      - in-pausa
-                      - in-corso
-                  sequenza-link:
-                    type: array
-                    items:
+                type: array
+                items:
+                  type: object
+                  properties: 
+                    numero-sequenza:
+                      type: integer
+                    link:
                       type: string
+        '403':
+          description: Partita terminata
         '404':
           description: ID della partita non valido
         '500':
@@ -137,6 +129,11 @@ paths:
             type: string
             enum:
               - numero-passi
+        - name: limite
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: Classfica delle partite per statistica selezionata
@@ -170,6 +167,11 @@ paths:
             type: string
             enum:
               - sfide-completate
+        - name: limite
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: Classifica degli utenti per statistica selezionata
