@@ -291,19 +291,6 @@ paths:
         '500':
           description: Errore interno del server
 
-  /logout:
-    post:
-      security: 
-        - bearerAuth: []
-      summary: Effettua la disconnessione dell'utente
-      responses:
-        '200':
-          description: Utente disconnesso con successo
-        '401':
-          description: L'utente deve aver fatto l'accesso per poter effettuare questa richiesta 
-        '500':
-          description: Errore interno del server
-
 components:
   securitySchemes:
     bearerAuth:
