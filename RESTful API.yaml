@@ -69,7 +69,7 @@ paths:
                     type: string
         '401':
           description: L'utente deve essere registrato per poter effettuare questa richiesta
-        '403':
+        '406':
           description: Terminare la partita in corso per poter iniziarne un'altra
         '500':
           description: Errore interno del server
@@ -77,8 +77,6 @@ paths:
   /partite/{id}:
     get:
       summary: Restituisce le informazioni relative ad una partita
-      security: 
-        - bearerAuth: []
       parameters:
         - name: id
           in: path
@@ -95,11 +93,15 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties: 
-                    numero-sequenza:
+                  properties:
+                    secondi-trascorsi:
                       type: integer
-                    link:
+                    stato:
                       type: string
+                      enum:
+                        - in-corso
+                        - in-pausa
+                        - terminata
         '403':
           description: Partita terminata
         '404':
@@ -132,8 +134,12 @@ paths:
       responses:
         '200':
           description: Stato aggiornato correttamente
-        '403':
+        '400':
           description: Stato della partita non valido
+        '401':
+          description: L'utente deve essere registrato per poter effettuare questa richiesta
+        '403':
+          description: L'utente non può modificare questa risorsa
         '404':
           description: ID della partita non valido
         '500':
@@ -223,7 +229,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  email:
+                  username:
                     type: string
                   password:
                     type: string
@@ -253,9 +259,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  nome:
-                    type: string
-                  email:
+                  username:
                     type: string
                   password:
                     type: string
