@@ -9,6 +9,20 @@ paths:
   /partite:
     get:
       summary: Restituisce l'elenco di tutte le partite
+      parameters:
+        - name: giocatore
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Filtra le partite di un giocatore
+
+        - name: limite
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Numero massimo di risultati
       responses:
         '200':
           description: Lista partite
