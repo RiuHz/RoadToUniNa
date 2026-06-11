@@ -8,7 +8,7 @@ info:
 paths:
   /partite:
     get:
-      summary: Restituisce l'elenco di tutte le partite
+      summary: Restituisce l'elenco di tutte le partite terminate
       parameters:
         - name: giocatore
           in: query
@@ -30,7 +30,7 @@ paths:
             enum:
               - asc
               - desc
-          description: Ordinamento per tempo/data
+          description: Ordinamento per identificativo
       responses:
         '200':
           description: Lista partite
@@ -102,6 +102,15 @@ paths:
                         - in-corso
                         - in-pausa
                         - terminata
+                    sequenza:
+                      type: array
+                      items:
+                        type: object
+                        properties: 
+                          numero-sequenza:
+                            type: integer
+                          link:
+                            type: string
         '403':
           description: Partita terminata
         '404':
