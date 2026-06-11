@@ -3,6 +3,10 @@
 import { HttpError } from "../errors/http-error.js";
 
 export function validazioneCredenziali(request, response, next) {
+    if (request.body === undefined) {
+        throw new HttpError(400, 'Username e Password richiesti');
+    }
+
     const { username, password } = request.body;
 
     if (username === undefined || typeof username !== 'string') {
