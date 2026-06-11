@@ -1,11 +1,20 @@
+'use strict';
+
+import { AuthController } from '../controllers/controller-auth.js';
+import { validazioneCredenziali } from '../middleware/validazione-credenziali.js';
+
 import express from 'express';
 
 export const router = express.Router();
 
-router.post('/login', (request, response, next) => {
-    response.send('POST del login');
+router.post('/login', [validazioneCredenziali], (request, response, next) => {
+    AuthController.login(request)
+        .then(token => response.send(token))
+        .catch(error => next(error));
 });
 
-router.post('/sign-up', (request, response, next) => {
-    response.send('POST del sign-up');
+router.post('/sign-up', [validazioneCredenziali], (request, response, next) => {
+    AuthController.signUp(request)
+        .then(() => response.send())
+        .catch(error => next(error));
 });
