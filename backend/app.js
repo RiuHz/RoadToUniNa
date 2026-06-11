@@ -4,16 +4,14 @@ import express from 'express';
 
 import {router as RouterPartite} from './routes/router-partite.js';
 import {router as RouterClassifiche} from './routes/router-classifiche.js';
-import {router as RouterLogin} from './routes/router-login.js';
-import {router as RouterSignUp} from './routes/router-sign-up.js';
+import {router as RouterAuth} from './routes/router-auth.js';
 
 const app = express();
 const PORT = 3000;
 
 app.use('/partite', RouterPartite);
 app.use('/classifiche', RouterClassifiche);
-app.use('/login', RouterLogin);
-app.use('/sign-up', RouterSignUp);
+app.use('/', RouterAuth);
 
 app.use(/.*/, express.static('public'));
 
