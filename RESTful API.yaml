@@ -288,17 +288,8 @@ paths:
           description: Utente registrato con successo
         '400':
           description: Credenziali non valide
-        '500':
-          description: Errore interno del server
-
-  /logout:
-    post:
-      summary: Effettua la disconnessione dell'utente
-      responses:
-        '200':
-          description: Utente disconnesso con successo
-        '401':
-          description: L'utente deve aver fatto l'accesso per poter effettuare questa richiesta 
+        '409':
+          description: Credenziali già esistenti
         '500':
           description: Errore interno del server
 
