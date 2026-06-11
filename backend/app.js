@@ -9,6 +9,8 @@ import {router as RouterAuth} from './routes/router-auth.js';
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
 app.use('/partite', RouterPartite);
 app.use('/classifiche', RouterClassifiche);
 app.use('/', RouterAuth);
