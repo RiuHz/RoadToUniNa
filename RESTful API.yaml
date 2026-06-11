@@ -16,13 +16,21 @@ paths:
           schema:
             type: string
           description: Filtra le partite di un giocatore
-
         - name: limite
           in: query
           required: false
           schema:
             type: integer
           description: Numero massimo di risultati
+        - name: ordine
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+          description: Ordinamento per tempo/data
       responses:
         '200':
           description: Lista partite
