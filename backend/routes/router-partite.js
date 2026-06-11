@@ -3,17 +3,18 @@
 import express from 'express';
 
 import { PartiteController } from '../controllers/controller-partite.js';
-import { validateQueryPartite } from '../middleware/validazione-query-partite.js';
+import { validazioneQueryPartite } from '../middleware/validazione-query-partite.js';
+import { validazioneJWT } from '../middleware/validazione-jwt-token.js';
 
 export const router = express.Router();
 
-router.get('/', [validateQueryPartite], (request, response, next) => {
+router.get('/', [validazioneQueryPartite], (request, response, next) => {
     PartiteController.getAll(request)
-        .then(partite => response.send(partite))
+        .then(partite => response.json({ partite: partite }))
         .catch(error => next(error));
 });
 
-router.post('/', (request, response, next) => {
+router.post('/', [validazioneJWT], (request, response, next) => {
     response.send('POST partite!');
 });
 
@@ -21,6 +22,6 @@ router.get('/:id', (request, response, next) => {
     response.send('GET partita con id ' + request.params['id']);
 });
 
-router.patch('/:id', (request, response, next) => {
+router.patch('/:id', [validazioneJWT], (request, response, next) => {
     response.send('PATCH partita con id ' + request.params['id']);
 });

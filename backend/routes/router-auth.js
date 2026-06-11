@@ -9,7 +9,7 @@ export const router = express.Router();
 
 router.post('/login', [validazioneCredenziali], (request, response, next) => {
     AuthController.login(request)
-        .then(token => response.send(token))
+        .then(token => response.json({ token: token }))
         .catch(error => next(error));
 });
 
