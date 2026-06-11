@@ -8,7 +8,7 @@ info:
 paths:
   /partite:
     get:
-      summary: Restituisce l'elenco di tutte le partite terminate
+      summary: Restituisce l'elenco di tutte le partite
       parameters:
         - name: giocatore
           in: query
@@ -22,6 +22,15 @@ paths:
           schema:
             type: integer
           description: Numero massimo di risultati
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - in-corso
+              - in-partita
+              - terminata
         - name: ordine
           in: query
           required: false
@@ -140,6 +149,8 @@ paths:
                     enum:
                       - in-pausa
                       - in-corso
+                  link-successivo:
+                    type: string
       responses:
         '200':
           description: Stato aggiornato correttamente
