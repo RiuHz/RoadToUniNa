@@ -288,6 +288,8 @@ paths:
           description: Utente registrato con successo
         '400':
           description: Credenziali non valide
+        '409':
+          description: Credenziali già esistenti
         '500':
           description: Errore interno del server
 
