@@ -293,6 +293,8 @@ paths:
 
   /logout:
     post:
+      security: 
+        - bearerAuth: []
       summary: Effettua la disconnessione dell'utente
       responses:
         '200':
