@@ -78,7 +78,7 @@ paths:
                     type: string
         '401':
           description: L'utente deve essere registrato per poter effettuare questa richiesta
-        '406':
+        '409':
           description: Terminare la partita in corso per poter iniziarne un'altra
         '500':
           description: Errore interno del server
