@@ -13,7 +13,7 @@ export function validazioneStatusPartite(request, response, next) {
 
     const statusValidi = [
         'in-corso',
-        'in-partita'
+        'in-pausa'
     ];
 
     if (!statusValidi.includes(status)) {

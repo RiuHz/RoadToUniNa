@@ -21,13 +21,13 @@ export function validazioneJWT(request, response, next) {
         throw new HttpError(401, 'Token mancante');
     }
 
-    const payload = jwt.verify(token, JWT_SECRET, (error, utente) => {
+    jwt.verify(token, JWT_SECRET, (error, utente) => {
         if (error) {
             throw new HttpError(401, 'Token non valido');
         }
+
+        request.username = utente.username;
+
+        next();
     });
-
-    request.username = payload.username;
-
-    next();
 }

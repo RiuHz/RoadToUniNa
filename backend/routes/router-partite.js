@@ -29,12 +29,12 @@ router.get('/:id', (request, response, next) => {
 
 router.patch('/:id/status', [validazioneJWT, validazioneStatusPartite], (request, response, next) => {
     PartiteController.updateStatoByID(request)
-        .then(request.send())
+        .then(() => response.send())
         .catch(error => next(error));
 });
 
 router.patch('/:id/sequenza', [validazioneJWT], (request, response, next) => {
     PartiteController.updateSequenzaByID(request)
-        .then(request.send())
+        .then(() => response.send())
         .catch(error => next(error));
 });

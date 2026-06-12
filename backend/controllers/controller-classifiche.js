@@ -1,7 +1,7 @@
 'use strict';
 
 import { Sequelize } from 'sequelize';
-import { Partite, Utenti, Link } from '../models/database.js';
+import { Partite, Utenti, Pagine } from '../models/database.js';
 
 
 export class ClassificheController {
@@ -13,15 +13,18 @@ export class ClassificheController {
             attributes: [
                 'id',
                 [Sequelize.col('Utenti.username'), 'giocatore'],
-                [Sequelize.fn('COUNT', Sequelize.col('Links.id')), 'punteggio']
+                [Sequelize.fn('COUNT', Sequelize.col('Pagines.id')), 'punteggio']
             ],
+            where: {
+                status: 'terminata'
+            },
             include: [
                 {
                     model: Utenti,
                     required: true
                 },
                 {
-                    model: Link,
+                    model: Pagine,
                     required: false
                 }
             ],

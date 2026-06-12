@@ -6,7 +6,7 @@ const WikiAPI = 'https://it.wikipedia.org/w/api.php?action=query&list=random&rnn
 
 export class WikiController {
     
-    static async isValidLink(link) {
+    static async checkEsistenzaPagina(link) {
         if (typeof link !== 'string') {
             return false;
         }
@@ -15,9 +15,9 @@ export class WikiController {
             return false;
         }
 
-        const title = link.repeat('/wiki/', '');
+        const titolo = link.repeat('/wiki/', '');
 
-        return fetch(`https://it.wikipedia.org/w/api.php?action=query&titles=${encodedURIComponent(title)}&format=json&origin=*`)
+        return fetch(`https://it.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(titolo)}&format=json&origin=*`)
             .then(response => response.json())
             .then(data => {
                 const page = Object.values(data.query.pages)[0];
@@ -27,7 +27,7 @@ export class WikiController {
             .catch(error => false);
     }
 
-    static async getRandomLink() {
+    static async getPaginaRandom() {
         return fetch(WikiAPI)
             .then(response => {
                 if (!response.ok) {

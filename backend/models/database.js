@@ -1,7 +1,7 @@
 'use strict';
 
 import { Sequelize } from 'sequelize';
-import { createModel as createLinkModel } from './link.js';
+import { createModel as createPagineModel } from './pagine.js';
 import { createModel as createPartiteModel } from './partite.js';
 import { createModel as createSequenzeModel } from './sequenze.js';
 import { createModel as createUtentiModel } from './utenti.js';
@@ -13,18 +13,18 @@ export const database = new Sequelize(
     { dialect: process.env.DIALECT }
 );
 
-createLinkModel(database);
+createPagineModel(database);
 createPartiteModel(database);
 createSequenzeModel(database);
 createUtentiModel(database);
 
-export const {Link, Partite, Sequenze, Utenti} = database.models;
+export const {Pagine, Partite, Sequenze, Utenti} = database.models;
 
 Utenti.hasMany(Partite);
 Partite.belongsTo(Utenti);
 
-Partite.belongsToMany(Link, { through: Sequenze });
-Link.belongsToMany(Partite, { through: Sequenze });
+Partite.belongsToMany(Pagine, { through: Sequenze });
+Pagine.belongsToMany(Partite, { through: Sequenze });
 
 database.sync()
     .then( () => {
