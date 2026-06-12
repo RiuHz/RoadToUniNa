@@ -12,7 +12,7 @@ export class ClassificheController {
         const partite = await Partite.findAll({
             attributes: [
                 'id',
-                [Sequelize.col('Utente.username'), 'giocatore'],
+                [Sequelize.col('Utenti.username'), 'giocatore'],
                 [Sequelize.fn('COUNT', Sequelize.col('Links.id')), 'punteggio']
             ],
             include: [
@@ -25,7 +25,7 @@ export class ClassificheController {
                     required: false
                 }
             ],
-            group: ['Partite.id', 'Utente.username'],
+            group: ['Partite.id', 'Utenti.username'],
             order: [[Sequelize.literal('punteggio'), 'DESC']],
             limit: limite ? Number(limite) : undefined
         });
@@ -44,7 +44,7 @@ export class ClassificheController {
         const utenti = await Utenti.findAll({
             attributes: [
                 'username',
-                [Sequelize.fn('COUNT', Sequelize.col('Partite.id')), 'punteggio']
+                [Sequelize.fn('COUNT', Sequelize.col('Partites.id')), 'punteggio']
             ],
             include: [
                 {
