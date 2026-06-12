@@ -1,6 +1,7 @@
 'use strict';
 
-import { Partite, Utenti, Link } from '../models/database.js';
+import { Partite, Utenti, Link, Sequenze } from '../models/database.js';
+import { HttpError } from '../errors/http-error.js';
 
 
 export class PartiteController {
@@ -68,7 +69,31 @@ export class PartiteController {
     }
 
     static async getByID(request) {
-        return Partite.findByPk(request.params.id);
+        const partita = await Partite.findByPk(request.params.id, {
+            include: [
+                {
+                    model: Link,
+                    through: {
+                        attributes: ['numeroSequenza']
+                    },
+                    attributes: ['url']
+                }
+            ],
+            order: [[Link, Sequenze, 'numeroSequenza', 'ASC']]
+        });
+
+        if (!partita) {
+            throw new HttpError(404, 'ID della partita non valido');
+        }
+
+        return {
+            'secondi-trascorsi': partita.secondi,
+            'stato': partita.status,
+            'sequenza': partita.Links.map(link => ({
+                'numero-sequenza': link.Sequenze.numeroSequenza,
+                'link': link.url
+            }))
+        }
     }
 
     static async updateByID(request) {

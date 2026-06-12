@@ -7,13 +7,13 @@ export function validazioneQueryPartite(request, response, next) {
     const { giocatore, limite, status, ordine } = request.query;
 
     if (status !== undefined) {
-        const allowedStatus = [
+        const statusValidi = [
             'in-corso',
             'in-partita',
             'terminata'
         ];
 
-        if (!allowedStatus.includes(status)) {
+        if (!statusValidi.includes(status)) {
             throw new HttpError(400, 'Status non valido');
         }
     }

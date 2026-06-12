@@ -10,7 +10,7 @@ export const router = express.Router();
 
 router.get('/', [validazioneQueryPartite], (request, response, next) => {
     PartiteController.getAll(request)
-        .then(partite => response.json({ partite: partite }))
+        .then(partite => response.json(partite))
         .catch(error => next(error));
 });
 
@@ -19,7 +19,9 @@ router.post('/', [validazioneJWT], (request, response, next) => {
 });
 
 router.get('/:id', (request, response, next) => {
-    response.send('GET partita con id ' + request.params['id']);
+    PartiteController.getByID(request)
+        .then(partita => response.json(partita))
+        .catch(error => next(error));
 });
 
 router.patch('/:id', [validazioneJWT], (request, response, next) => {

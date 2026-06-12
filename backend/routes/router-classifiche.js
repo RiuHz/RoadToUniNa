@@ -13,7 +13,7 @@ router.get('/partite', [validazioneQueryClassifichePartite], (request, response,
     switch (tipologia) {
         case 'numero-passi':
             ClassificheController.getPartiteByNumeroPassi(request)
-                .then(partite => response.json({ classifica: partite }))
+                .then(partite => response.json(partite))
                 .catch(error => next(error));
             break;
     };
@@ -25,7 +25,7 @@ router.get('/utenti', [validazioneQueryClassificheUtenti], (request, response, n
     switch (tipologia) {
         case 'sfide-completate':
             ClassificheController.getUtentiBySfideCompletate(request)
-                .then(utenti => response.json({ classifica: utenti }))
+                .then(utenti => response.json(utenti))
                 .catch(error => next(error));
     };
 });

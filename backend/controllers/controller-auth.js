@@ -21,7 +21,9 @@ export class AuthController {
             throw new HttpError(400, 'Credenziali non valide');
         }
 
-        return jwt.sign({ username: request.body.username}, JWT_SECRET, { expiresIn: '1h' });
+        return {
+            'token': jwt.sign({ username: request.body.username}, JWT_SECRET, { expiresIn: '1h' })
+        }
     }
 
     static async signUp(request) {
