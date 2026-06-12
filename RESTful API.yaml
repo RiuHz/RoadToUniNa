@@ -99,27 +99,25 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    secondi-trascorsi:
-                      type: integer
-                    stato:
-                      type: string
-                      enum:
-                        - in-corso
-                        - in-pausa
-                        - terminata
-                    sequenza:
-                      type: array
-                      items:
-                        type: object
-                        properties: 
-                          numero-sequenza:
-                            type: integer
-                          link:
-                            type: string
+                type: object
+                properties:
+                  secondi-trascorsi:
+                    type: integer
+                  stato:
+                    type: string
+                    enum:
+                      - in-corso
+                      - in-pausa
+                      - terminata
+                  sequenza:
+                    type: array
+                    items:
+                      type: object
+                      properties: 
+                        numero-sequenza:
+                          type: integer
+                        link:
+                          type: string
         '403':
           description: Partita terminata
         '404':
