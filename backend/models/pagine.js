@@ -4,13 +4,13 @@ import { DataTypes } from 'sequelize';
 
 
 export function createModel(database) {
-    database.define('Link', {
+    database.define('Pagine', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement:true,
             primaryKey: true
         },
-        url: {
+        titolo: {
             type: DataTypes.STRING,
             allowNull: false
         }
