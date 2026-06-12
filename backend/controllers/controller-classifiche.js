@@ -10,22 +10,6 @@ export class ClassificheController {
         const { tipo, limite } = request.query;
 
         const partite = await Partite.findAll({
-            include: [
-                {
-                    model: Utenti,
-                    attributes: ['username']
-                },
-                {
-                    model: Link,
-                    through: {
-                        attributes: ['numeroSequenza']
-                    }
-                }
-            ],
-            limit: limite ? limite : undefined
-        })
-
-        const partite = await Partite.findAll({
             attributes: [
                 'id',
                 [Sequelize.col('Utente.username'), 'giocatore'],
