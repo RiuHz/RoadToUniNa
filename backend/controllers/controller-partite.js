@@ -1,7 +1,8 @@
 'use strict';
 
-import { Partite, Utenti, Link, Sequenze } from '../models/database.js';
+import { Partite, Utenti, Link, Sequenze, database } from '../models/database.js';
 import { HttpError } from '../errors/http-error.js';
+import { WikiController } from './controller-wiki.js';
 
 
 export class PartiteController {
@@ -63,9 +64,53 @@ export class PartiteController {
     }
 
     static async create(request) {
-        await Partite.create({
-            UtentiUsername: ''// ! Need to link the user to the Partita
-        }).save();
+        const conflitto = await Partite.findOne({
+            where: {
+                UtentiUsername: request.username,
+                status: ['in-corso', 'in-pausa']
+            }
+        });
+
+        if (conflitto) {
+            throw new HttpError(409, 'L\'utente ha già una partita in corso');
+        }
+
+        const linkIniziale = await WikiController.getRandomLink();
+
+        database.transaction(async (t) => {
+            const partita = await Partite.create(
+                {
+                    UtentiUsername: request.username
+                },
+                {
+                    transaction: t
+                }
+            );
+
+            const link = await Link.create(
+                {
+                    url: linkIniziale
+                },
+                {
+                    transaction: t
+                }
+            );
+
+            await Sequenze.create(
+                {
+                    PartiteId: partita.id,
+                    LinkId: link.id,
+                    numeroSequenza: 0
+                },
+                {
+                    transaction: t
+                }
+            );
+        });
+
+        return {
+            'link-iniziale': linkIniziale
+        }
     }
 
     static async getByID(request) {
@@ -96,8 +141,86 @@ export class PartiteController {
         }
     }
 
-    static async updateByID(request) {
+    static async updateStatoByID(request) {
+        const partita = await Partite.findByPk(request.params.id);
 
+        if (!partita) {
+            throw new HttpError(404, 'ID della partita non valido');
+        }
+
+        if (partita.username !== request.username) {
+            throw new HttpError(403, 'L\'utente non può modificare questa risorsa');
+        }
+
+        await Partite.update(
+            {
+                status: request.body['stato']
+            },
+            {
+                where: {
+                    id: request.params.id
+                }
+            }
+        );
+    }
+
+    static async updateSequenzaByID(request) {
+        const link = request.body['link-successivo'];
+
+        if (!WikiController.isValidLink(link)) {
+            throw new HttpError(400, 'Link non valido');
+        }
+
+        const partita = await Partite.findByPk(request.params.id, {
+            include: [
+                {
+                    model: Link,
+                    through: {
+                        attributes: ['numeroSequenza']
+                    },
+                    attributes: ['url']
+                }
+            ],
+            order: [[Link, Sequenze, 'numeroSequenza', 'ASC']]
+        });
+
+        if (!partita) {
+            throw new HttpError(404, 'ID della partita non valido');
+        }
+
+        if (partita.username !== request.username) {
+            throw new HttpError(403, 'L\'utente non può modificare questa risorsa');
+        }
+
+        database.transaction(async (t) => {
+            const ultimaSequenza = await Sequenze.findOne(
+                {
+                    where: { PartiteId: request.params.id },
+                    order: [['numeroSequenza', 'DESC']],
+                    transaction: t
+                }
+            );
+
+            const link = await Link.create(
+                {
+                    url
+                },
+                {
+                    transaction: t
+                }
+            );
+
+            await Sequenze.create(
+                {
+                    PartiteId: id,
+                    LinkId: link.id,
+                    numeroSequenza: ultimaSequenza.numeroSequenza + 1
+                },
+                {
+                    transaction: t
+                }
+            );
+        });
     }
 
 }
