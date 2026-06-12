@@ -230,7 +230,7 @@ paths:
                 items:
                   type: object
                   properties: 
-                    nome:
+                    giocatore:
                       type: string
                     punteggio:
                       type: integer
