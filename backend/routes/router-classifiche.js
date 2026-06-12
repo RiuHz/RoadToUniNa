@@ -8,20 +8,21 @@ import express from 'express';
 export const router = express.Router();
 
 router.get('/partite', [validazioneQueryClassifichePartite], (request, response, next) => {
-    const { tipo, limite } = request.query;
+    const { tipologia, limite } = request.query;
 
-    switch (tipo) {
+    switch (tipologia) {
         case 'numero-passi':
             ClassificheController.getPartiteByNumeroPassi(request)
                 .then(partite => response.json({ classifica: partite }))
                 .catch(error => next(error));
+            break;
     };
 });
 
 router.get('/utenti', [validazioneQueryClassificheUtenti], (request, response, next) => {
-    const { tipo, limite } = request.query;
+    const { tipologia, limite } = request.query;
 
-    switch (tipo) {
+    switch (tipologia) {
         case 'sfide-completate':
             ClassificheController.getUtentiBySfideCompletate(request)
                 .then(utenti => response.json({ classifica: utenti }))
