@@ -196,7 +196,7 @@ paths:
                       type: integer
                     giocatore:
                       type: string
-                    points:
+                    punteggio:
                       type: integer
         '400':
           description: Tipologia non valida
@@ -232,7 +232,7 @@ paths:
                   properties: 
                     nome:
                       type: string
-                    points:
+                    punteggio:
                       type: integer
         '400':
           description: Tipologia non valida
