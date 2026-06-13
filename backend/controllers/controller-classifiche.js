@@ -10,6 +10,7 @@ export class ClassificheController {
         const { tipo, limite } = request.query;
 
         const partite = await Partite.findAll({
+            subQuery: false,
             attributes: [
                 'id',
                 [Sequelize.col('Utenti.username'), 'giocatore'],
@@ -45,6 +46,7 @@ export class ClassificheController {
         const { tipo, limite } = request.query;
 
         const utenti = await Utenti.findAll({
+            subQuery: false,
             attributes: [
                 'username',
                 [Sequelize.fn('COUNT', Sequelize.col('Partites.id')), 'punteggio']
@@ -60,7 +62,7 @@ export class ClassificheController {
             ],
             group: ['Utenti.username'],
             order: [[Sequelize.literal('punteggio'), 'DESC']],
-            limit: limite ? limite : undefined
+            limit: limite ? Number(limite) : undefined
         })
 
         return utenti.map(utente => ({
