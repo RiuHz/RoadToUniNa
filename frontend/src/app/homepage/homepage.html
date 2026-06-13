@@ -1,0 +1,15 @@
+<div class="px-4 py-5 my-5 text-center">
+    @if (! this.authService.isUserAuthenticated()) {
+        <h1 class="mb-5 display-5 fw-bold text-body-emphasis">Bevenuto su RoadToUniNa!</h1>
+
+        <p class="lead"><a routerLink="/login">Accedi</a> o <a routerLink="/signup">Registrati</a> per iniziare a giocare!</p>
+    } @else {
+        <h1 class="mb-5 display-5 fw-bold text-body-emphasis">Bentornato {{ this.authService.user() }} su RoadToUniNa!</h1>
+        
+        @if (! pausedGame()) {
+            <p class="lead">Che ne dici di cominciare una nuova partita, <a routerLink="/match">vuoi giocare?</a></p>
+        } @else {
+            <p class="lead">Hai lasciato una partita in sospeso, <a routerLink="/match">ripartiamo?</a></p>
+        }
+    }
+</div>
