@@ -233,7 +233,9 @@ paths:
                 type: array
                 items:
                   type: object
-                  properties: 
+                  properties:
+                    id:
+                      type: integer
                     giocatore:
                       type: string
                     punteggio:
