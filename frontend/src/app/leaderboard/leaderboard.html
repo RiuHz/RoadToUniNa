@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (match of userLeaderboard(); track match.id) {
+                            @for (match of userLeaderboard(); track match.giocatore) {
                                 <tr>
                                     <th scope="row">{{ match.giocatore }}</th>
                                     <td>{{ match.punteggio }}</td>
