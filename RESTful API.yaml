@@ -22,7 +22,7 @@ paths:
           schema:
             type: integer
           description: Numero massimo di risultati
-        - name: status
+        - name: stato
           in: query
           required: false
           schema:
