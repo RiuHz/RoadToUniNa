@@ -8,11 +8,11 @@ import { WikiController } from './controller-wiki.js';
 export class PartiteController {
     
     static async getAll(request) {
-        const { giocatore, limite, status, ordine } = request.query;
+        const { giocatore, limite, stato, ordine } = request.query;
 
         const query = {};
 
-        if (giocatore || status) {
+        if (giocatore || stato) {
             query.where = {};
         }
 
@@ -20,8 +20,8 @@ export class PartiteController {
             query.where.UtentiUsername = giocatore;
         }
 
-        if (status) {
-            query.where.status = status;
+        if (stato) {
+            query.where.status = stato;
         }
 
         if (limite) {

@@ -4,17 +4,17 @@ import { HttpError } from '../errors/http-error.js';
 
 
 export function validazioneQueryPartite(request, response, next) {
-    const { giocatore, limite, status, ordine } = request.query;
+    const { giocatore, limite, stato, ordine } = request.query;
 
-    if (status !== undefined) {
+    if (stato !== undefined) {
         const statusValidi = [
             'in-corso',
-            'in-partita',
+            'in-pausa',
             'terminata'
         ];
 
-        if (!statusValidi.includes(status)) {
-            throw new HttpError(400, 'Status non valido');
+        if (!statusValidi.includes(stato)) {
+            throw new HttpError(400, 'Stato non valido');
         }
     }
 
