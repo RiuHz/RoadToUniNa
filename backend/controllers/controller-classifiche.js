@@ -64,6 +64,7 @@ export class ClassificheController {
         })
 
         return utenti.map(utente => ({
+            'id': utente.Partites.id,
             'giocatore': utente.username,
             'punteggio': Number(utente.getDataValue('punteggio'))
         }));
