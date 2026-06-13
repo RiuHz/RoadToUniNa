@@ -51,14 +51,15 @@ export class PartiteController {
         });
 
         return partite.map(partita => {
-            const linkIniziale = partita.Pagines.find(pagina => pagina.Sequenze.numeroSequenza === 0);
-
             return {
                 'id': partita.id,
                 'giocatore': partita.Utenti?.username,
                 'secondi-trascorsi': partita.secondi,
-                'link-iniziale': linkIniziale?.url,
-                'numero-passaggi': partita.Pagines.length
+                'stato': partita.status,
+                'sequenza': partita.Pagines.map(pagina => ({
+                    'numero-sequenza': pagina.Sequenze.numeroSequenza,
+                    'link': '/wiki/' + pagina.titolo
+                }))
             };
         });
     }
@@ -132,6 +133,8 @@ export class PartiteController {
         }
 
         return {
+            'id': partita.id,
+            'giocatore': partita.Utenti?.username,
             'secondi-trascorsi': partita.secondi,
             'stato': partita.status,
             'sequenza': partita.Pagines.map(pagina => ({
