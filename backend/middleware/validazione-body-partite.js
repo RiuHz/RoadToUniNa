@@ -5,7 +5,7 @@ import { HttpError } from '../errors/http-error.js';
 
 
 export function validazioneStatusPartite(request, response, next) {
-    const status = request.body['status'];
+    const status = request.body['stato'];
 
     if (status === undefined) {
         throw new HttpError(400, 'Stato della partita non valido');
@@ -17,7 +17,7 @@ export function validazioneStatusPartite(request, response, next) {
     ];
 
     if (!statusValidi.includes(status)) {
-        throw new HttpError(400, 'Status non valido');
+        throw new HttpError(400, 'Stato non valido');
     }
 
     next();

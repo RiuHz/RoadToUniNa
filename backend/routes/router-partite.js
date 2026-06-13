@@ -27,7 +27,7 @@ router.get('/:id', (request, response, next) => {
         .catch(error => next(error));
 });
 
-router.patch('/:id/status', [validazioneJWT, validazioneStatusPartite], (request, response, next) => {
+router.patch('/:id/stato', [validazioneJWT, validazioneStatusPartite], (request, response, next) => {
     PartiteController.updateStatoByID(request)
         .then(() => response.send())
         .catch(error => next(error));

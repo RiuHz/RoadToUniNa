@@ -157,7 +157,7 @@ export class PartiteController {
 
         await Partite.update(
             {
-                status: request.body['status']
+                status: request.body['stato']
             },
             {
                 where: {
