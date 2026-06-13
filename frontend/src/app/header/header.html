@@ -7,18 +7,23 @@
         </div>
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li>
-                <a href="" class="nav-link px-2">Home</a>
+                <a routerLink="/" class="nav-link px-2">Home</a>
             </li>
             <li>
-                <a href="" class="nav-link px-2">Classifiche</a>
+                <a routerLink="/leaderboard" class="nav-link px-2">Classifiche</a>
             </li>
             <li>
-                <a href="" class="nav-link px-2">Storico Partite</a>
+                <a routerLink="/match-history" class="nav-link px-2">Storico Partite</a>
             </li>
         </ul>
         <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-Up</button>
+            @if (! this.authService.isUserAuthenticated()) {
+                <a routerLink="/login" class="btn btn-outline-primary me-2">Login</a>
+                <a routerLink="/signup" class="btn btn-primary">Sign-Up</a>
+            } @else {
+                <span class="me-4 primary">Ciao {{ this.authService.user() }}!</span>
+                <a routerLink="/" (click)="logout()" class="btn btn-primary">Logout</a>
+            }
         </div>
     </header>
 </div>
