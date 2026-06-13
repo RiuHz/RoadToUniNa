@@ -48,18 +48,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    giocatore:
-                      type: string
-                    secondi-trascorsi:
-                      type: integer
-                    link-iniziale:
-                      type: string
-                    numero-passaggi:
-                      type: integer
+                  $ref: '#/components/schemas/partita'
         '500':
           description: Errore interno del server
     post:
@@ -99,31 +88,15 @@ paths:
           content:
             'application/json':
               schema:
-                type: object
-                properties:
-                  secondi-trascorsi:
-                    type: integer
-                  stato:
-                    type: string
-                    enum:
-                      - in-corso
-                      - in-pausa
-                      - terminata
-                  sequenza:
-                    type: array
-                    items:
-                      type: object
-                      properties: 
-                        numero-sequenza:
-                          type: integer
-                        link:
-                          type: string
+                $ref: '#/components/schemas/partita'
         '403':
           description: Partita terminata
         '404':
           description: ID della partita non valido
         '500':
           description: Errore interno del server
+
+  /partite/{id}/status:
     patch:
       summary: Aggiorna lo stato di una partita
       security: 
@@ -147,8 +120,6 @@ paths:
                     enum:
                       - in-pausa
                       - in-corso
-                  link-successivo:
-                    type: string
       responses:
         '200':
           description: Stato aggiornato correttamente
@@ -163,9 +134,44 @@ paths:
         '500':
           description: Errore interno del server
 
+  /partite/{id}/sequenza:
+    patch:
+      summary: Aggiorna lo stato di una partita
+      security: 
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: L'identificativo univoco della partita da aggiornare
+          schema:
+            type: integer
+      requestBody: 
+          required: true
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  link-successivo:
+                    type: string
+      responses:
+        '200':
+          description: Sequenza aggiornata correttamente
+        '400':
+          description: Link successivo non valido
+        '401':
+          description: L'utente deve essere registrato per poter effettuare questa richiesta
+        '403':
+          description: L'utente non può modificare questa risorsa
+        '404':
+          description: ID della partita non valido
+        '500':
+          description: Errore interno del server
+
   /classifica/partite:
     get:
-      summary: Restituisce la classifica delle partite per statistica
+      summary: Restituisce la classifica delle partite terminate per statistica
       parameters:
         - name: tipo
           in: query
@@ -297,3 +303,26 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
+  schemas:
+    partita:
+      type: object
+      properties:
+        id:
+          type: integer
+        giocatore:
+          type: string
+        secondi-trascorsi:
+          type: integer
+        stato:
+          type: string
+          enum: ['in-corso', 'in-parita', 'terminata']
+        sequenza:
+          type: array
+          items:
+            type: object
+            properties:
+              numero-sequenza:
+                type: integer
+              link:
+                type: string
