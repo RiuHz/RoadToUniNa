@@ -1,6 +1,7 @@
 'use strict';
 
 import express from 'express';
+import cors from 'cors';
 
 import {router as RouterPartite} from './routes/router-partite.js';
 import {router as RouterClassifiche} from './routes/router-classifiche.js';
@@ -9,6 +10,7 @@ import {router as RouterAuth} from './routes/router-auth.js';
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/partite', RouterPartite);

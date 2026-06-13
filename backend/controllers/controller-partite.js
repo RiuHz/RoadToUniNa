@@ -134,7 +134,7 @@ export class PartiteController {
 
         return {
             'id': partita.id,
-            'giocatore': partita.Utenti?.username,
+            'giocatore': partita.UtentiUsername,
             'secondi-trascorsi': partita.secondi,
             'stato': partita.status,
             'sequenza': partita.Pagines.map(pagina => ({
