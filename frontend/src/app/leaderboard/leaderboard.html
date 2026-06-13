@@ -1,0 +1,58 @@
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">Le classifiche di RoadToUniNa</h1>
+</div>
+
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-12 col-lg-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="fs-4 text-center">Top 10 Passaggi Effettuati</p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Partita</th>
+                                <th scope="col">Giocatore</th>
+                                <th scope="col">Passaggi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (match of matchLeaderboard(); track match.id) {
+                                <tr>
+                                    <th scope="row"><a [routerLink]="['/match', match.id]">{{ match.id }}</a></th>
+                                    <td>{{ match.giocatore }}</td>
+                                    <td>{{ match.punteggio }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card h-100">
+                <div class="card-body">
+                    <p class="fs-4 text-center">Top 10 Sfide Completate</p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Giocatore</th>
+                                <th scope="col">Sfide completate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (match of userLeaderboard(); track match.id) {
+                                <tr>
+                                    <th scope="row">{{ match.giocatore }}</th>
+                                    <td>{{ match.punteggio }}</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
