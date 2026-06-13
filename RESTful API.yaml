@@ -22,7 +22,7 @@ paths:
           schema:
             type: integer
           description: Numero massimo di risultati
-        - name: status
+        - name: stato
           in: query
           required: false
           schema:
@@ -169,7 +169,7 @@ paths:
         '500':
           description: Errore interno del server
 
-  /classifica/partite:
+  /classifiche/partite:
     get:
       summary: Restituisce la classifica delle partite terminate per statistica
       parameters:
@@ -207,7 +207,7 @@ paths:
         '500':
           description: Errore interno del server
 
-  /classifica/utenti:
+  /classifiche/utenti:
     get:
       summary: Restituisce la classifica degli utenti per statistica
       parameters:
