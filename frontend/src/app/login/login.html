@@ -1,0 +1,11 @@
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="mb-5 display-5 fw-bold text-body-emphasis">Accedi a RoadToUniNa</h1>
+</div>
+
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div style="width: 400px;">
+            <app-authentication-form [submitText]="'Accedi'" (submitForm)="userLogin($event)"></app-authentication-form>
+        </div>
+    </div>
+</div>
