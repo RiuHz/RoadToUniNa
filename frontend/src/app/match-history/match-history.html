@@ -1,0 +1,32 @@
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="mb-5 display-5 fw-bold text-body-emphasis">Tutte le partite di RoadToUniNa</h1>
+</div>
+
+<div class="container my-5">
+    <div class="card h-100">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Partita</th>
+                        <th scope="col">Giocatore</th>
+                        <th scope="col">Tempo</th>
+                        <th scope="col">Inizio</th>
+                        <th scope="col">Passaggi Totali</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (match of matchHistory(); track match.id) {
+                        <tr>
+                            <th scope="row"><a [routerLink]="['/match', match.id]">{{ match.id }}</a></th>
+                            <td>{{ match.giocatore }}</td>
+                            <td>{{ match['secondi-trascorsi'] | secondsToHours }}</td>
+                            <td>{{ match.sequenza[0].link | decodeURI}}</td>
+                            <td>{{ match.sequenza.length }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
