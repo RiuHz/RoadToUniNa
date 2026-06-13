@@ -26,7 +26,7 @@ export const routes: Routes = [
     },
     {
         path: 'match',
-        title: 'Partita | RoadToUniNa',
+        title: 'Gioca | RoadToUniNa',
         component: Match,
         canActivate: [authorizationGuard]
     },
