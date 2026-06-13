@@ -1,0 +1,13 @@
+<form class="p-4 p-md-5 border rounded-3 bg-body-tertiary shadow" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="username-input" placeholder=" " formControlName="username">
+        <label for="username-input">Username</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="password-input" placeholder=" " formControlName="password">
+        <label for="password-input">Password</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">{{ this.submitText() }}</button>
+    <hr class="my-4">
+    <small class="text-body-secondary">Compilando il form sopra accetti di vedere riferimenti al corso di Tech Web (GIF di gattini, frasi del Prof. Starace...).</small>
+</form>
