@@ -61,10 +61,7 @@ paths:
           content:
             'application/json':
               schema:
-                type: object
-                properties:
-                  link-iniziale:
-                    type: string
+                $ref: '#/components/schemas/partita'
         '401':
           description: L'utente deve essere registrato per poter effettuare questa richiesta
         '409':
@@ -123,6 +120,10 @@ paths:
       responses:
         '200':
           description: Stato aggiornato correttamente
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/partita'
         '400':
           description: Stato della partita non valido
         '401':
@@ -158,6 +159,10 @@ paths:
       responses:
         '200':
           description: Sequenza aggiornata correttamente
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/partita'
         '400':
           description: Link successivo non valido
         '401':
