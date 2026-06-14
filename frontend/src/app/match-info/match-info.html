@@ -1,10 +1,10 @@
 @if (match(); as partita) {
-    <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold text-body-emphasis">Partita {{ partita.id }} di {{ partita.giocatore }}</h1>
-        <h2 class="display-5 fw-bold text-body-emphasis">Tempo impiegato {{ partita['secondi-trascorsi'] | secondsToHours }}</h2>
-    </div>
+    <div class="container">
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-5 fw-bold text-body-emphasis">Partita {{ partita.id }} di {{ partita.giocatore }}</h1>
+            <h2 class="display-5 fw-bold text-body-emphasis">Tempo impiegato {{ partita['secondi-trascorsi'] | secondsToHours }}</h2>
+        </div>
 
-    <div class="container my-5">
         <div class="card h-100">
             <div class="card-body">
                 <table class="table">
@@ -27,8 +27,9 @@
         </div>
     </div>
 } @else {
-    <div class="px-4 py-5 my-5 text-center">
-        <h1 class="display-5 fw-bold text-body-emphasis">Impossibile trovare la partita...</h1>
+    <div class="container">
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-5 fw-bold text-body-emphasis">Impossibile trovare la partita...</h1>
+        </div>
     </div>
-
 }
