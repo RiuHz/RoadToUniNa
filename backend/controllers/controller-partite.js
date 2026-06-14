@@ -81,7 +81,8 @@ export class PartiteController {
         database.transaction(async (t) => {
             const partita = await Partite.create(
                 {
-                    UtentiUsername: request.username
+                    UtentiUsername: request.username,
+                    'ultima-modifica': Date.now()
                 },
                 {
                     transaction: t
@@ -155,9 +156,22 @@ export class PartiteController {
             throw new HttpError(403, 'L\'utente non può modificare questa risorsa');
         }
 
+        if (partita.status === 'terminata') {
+            throw new HttpError(403, 'Non è possibile alterare lo stato di una partita terminata');
+        }
+
+        const oraCorrente = new Date();
+        const ultimaModifica = new Date(partita['ultima-modifica']);
+
+        const differenzaInSecondi = Math.floor((oraCorrente - ultimaModifica) / 1000);
+
+        console.log(oraCorrente, partita['ultima-modifica'], ultimaModifica, differenzaInSecondi);
+
         await Partite.update(
             {
-                status: request.body['stato']
+                status: request.body['stato'],
+                secondi:  request.body['stato'] === 'in-pausa' ? partita.secondi + differenzaInSecondi : partita.secondi,
+                'ultima-modifica': request.body['stato'] === 'in-pausa' ? oraCorrente : ultimaModifica
             },
             {
                 where: {
@@ -195,6 +209,10 @@ export class PartiteController {
             throw new HttpError(403, 'L\'utente non può modificare questa risorsa');
         }
 
+        if (partita.status === 'terminata') {
+            throw new HttpError(403, 'Non è possibile alterare la sequenza di una partita terminata');
+        }
+
         const titolo = encodeURIComponent(link.replace('/wiki/', ''));
 
         database.transaction(async (t) => {
@@ -225,6 +243,17 @@ export class PartiteController {
                     transaction: t
                 }
             );
+
+            const oraCorrente = new Date();
+            const ultimaModifica = new Date(partita['ultima-modifica']);
+
+            const differenzaInSecondi = Math.floor((oraCorrente - ultimaModifica) / 1000);
+
+            partita.secondi += differenzaInSecondi;
+
+            partita['ultima-modifica'] = oraCorrente;
+
+            await partita.save({ transaction: t });
         });
     }
 
